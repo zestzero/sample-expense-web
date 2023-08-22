@@ -1,9 +1,7 @@
-export const BUTTON_TYPES = {
-    PRIMARY: 'primary',
-    SECONDARY: 'secondary',
-}
+export type ButtonTypes = 'primary' | 'secondary' | 'danger';
 
-export const Variants = {
-    [BUTTON_TYPES.PRIMARY]: "bg-blue-500 hover:bg-blue-700 text-white",
-    [BUTTON_TYPES.SECONDARY]: "bg-red-500 hover:bg-red-700 text-white",
+export const ButtonVariants: { [key in ButtonTypes]: string } = {
+    ['primary']: "bg-indigo-500 hover:bg-indigo-700 text-white",
+    ['secondary']: "bg-white border border-slate-500 hover:bg-slate-300 text-slate-500",
+    ['danger']: "bg-red-500 hover:bg-red-700 text-white",
 };

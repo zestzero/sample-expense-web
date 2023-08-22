@@ -5,15 +5,21 @@ import { Item } from "@models/ListItem";
 
 interface Props {
   items: Item[];
+  onChange: (value: string) => void;
 }
 
 export const ListBox: FC<Props> = (props) => {
   const [selected, setSelected] = useState<Item>(props.items[0]);
 
+  const onChange = (item: Item) => {
+    setSelected(item);
+    props.onChange(item.value);
+  };
+
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} onChange={onChange}>
       <div className="relative mt-1">
-        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-300 sm:text-sm">
+        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm">
           <span className="block truncate">{selected.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon
@@ -34,7 +40,7 @@ export const ListBox: FC<Props> = (props) => {
                 key={index}
                 className={({ active }) =>
                   `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                    active ? "bg-blue-100 text-blue-900" : "text-gray-900"
+                    active ? "bg-indigo-100 text-indigo-900" : "text-gray-900"
                   }`
                 }
                 value={item}
@@ -49,7 +55,7 @@ export const ListBox: FC<Props> = (props) => {
                       {item.name}
                     </span>
                     {selected ? (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600">
                         <CheckIcon className="h-5 w-5" aria-hidden="true" />
                       </span>
                     ) : null}
