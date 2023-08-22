@@ -1,31 +1,20 @@
 import { FC } from "react";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import { CatFact } from "@components/CatFact/CatFact";
 import { Input } from "@components/core/Input/Input";
 import { ListBox } from "@components/core/ListBox/ListBox";
 import { Modal } from "@components/core/Modal/Modal";
 import { ExpenseCategories } from "@constants/ExpenseCategories";
 import { ModalName } from "@constants/Modal";
-import { Category, Expense } from "@models/Expense";
+import { Expense } from "@models/Expense";
 import { Button } from "@components/core/Button/Button";
-import { v4 as uuidv4 } from "uuid";
 import { useModalContext } from "@hooks/useModalContext";
+import { Schema } from "./schema";
+import { getExpenseItem } from "./mapper";
 
 interface Props {
   onCreate: (expense: Expense) => void;
 }
-
-const Schema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field ")
-    .required("Item name is required"),
-  amount: Yup.number()
-    .moreThan(0, "Amount must be greater than 0")
-    .required("Expense amount is required"),
-});
 
 export const ExpenseModal: FC<Props> = (props) => {
   const { closeModal } = useModalContext(ModalName.Expense);
@@ -41,20 +30,20 @@ export const ExpenseModal: FC<Props> = (props) => {
         validateOnBlur
         validationSchema={Schema}
         onSubmit={(values) => {
-          props.onCreate({
-            id: uuidv4(),
-            name: values.name,
-            amount: values.amount,
-            category: values.category as Category,
-            date: new Date(),
-          });
+          props.onCreate(
+            getExpenseItem({
+              name: values.name,
+              amount: values.amount,
+              category: values.category,
+            })
+          );
           closeModal();
         }}
       >
         {({ errors, touched, handleChange, setFieldValue }) => (
           <Form>
-            <div className="flex flex-row space-x-8 w-full">
-              <div className="flex flex-col flex-1 space-y-2">
+            <div className="flex flex-col md:flex-row md:space-x-8 w-full items-center md:items-start">
+              <div className="flex flex-col flex-1 space-y-2 w-full">
                 <Input
                   name="name"
                   placeholder="Item Name"
@@ -82,7 +71,7 @@ export const ExpenseModal: FC<Props> = (props) => {
                   ) : null}
                 </div>
               </div>
-              <div className="flex flex-1">
+              <div className="flex py-4 md:py-0 flex-1 w-full">
                 <CatFact />
               </div>
             </div>

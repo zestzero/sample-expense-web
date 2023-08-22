@@ -1,4 +1,5 @@
 import { Category, Expense } from "@models/Expense";
+import { groupAndSort } from "@utils/groupAndSort";
 import { useCallback, useEffect, useState } from "react";
 
 export const useExpenseTracker = () => {
@@ -7,11 +8,7 @@ export const useExpenseTracker = () => {
 
     useEffect(() => {
         if (expenses.length > 0) {
-            const groupExpenseByCategory = expenses.reduce((acc: Map<Category, number>, curr: Expense) => {
-                acc.set(curr.category, acc.get(curr.category) ? (acc.get(curr.category) || 0) + curr.amount : curr.amount);
-                return acc;
-            }, new Map<Category, number>());
-            const [first, second] = Array.from(groupExpenseByCategory).sort((a, b) => b[1] - a[1]);
+            const [first, second] = groupAndSort(expenses);
             const result = expenses.length > 1 && first[1] === second[1] ? [first[0]].concat(second[0]) : [first[0]];
             setTopCategoryExpenses(result);
         }

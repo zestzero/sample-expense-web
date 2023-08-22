@@ -43,10 +43,10 @@ export const ExpenseTracker = () => {
       </div>
       {expenses && expenses.length > 0 ? (
         <div className="py-4">
-          <table className="table-auto border-collapse border border-slate-500">
+          <table className="table-auto border-collapse border border-slate-500 text-left">
             <thead>
               <tr>
-                <th>
+                <th className="border border-slate-600 p-2">
                   <input type="checkbox" onChange={onToggleAll} />
                 </th>
                 <th className="border border-slate-600 p-2">Item</th>
