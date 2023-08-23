@@ -1,4 +1,6 @@
 import { ExpenseModal } from "@components/ExpenseModal/ExpenseModal";
+import { ExpenseRow } from "@components/ExpenseTable/ExpenseRow";
+import { ExpenseTable } from "@components/ExpenseTable/ExpenseTable";
 import { Button } from "@components/core/Button/Button";
 import { ModalName } from "@constants/Modal";
 import { PlusIcon, TrashIcon } from "@heroicons/react/20/solid";
@@ -45,47 +47,21 @@ export const ExpenseTracker = () => {
       </div>
       {expenses && expenses.length > 0 ? (
         <div className="py-4">
-          <table className="table-auto border-collapse border border-slate-500 text-left">
-            <thead>
-              <tr>
-                <th className="border border-slate-600 p-2">
-                  <input type="checkbox" onChange={onToggleAll} />
-                </th>
-                <th className="border border-slate-600 p-2">Item</th>
-                <th className="border border-slate-600 p-2">Category</th>
-                <th className="border border-slate-600 p-2">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {expenses.map((expense, index) => (
-                <tr
-                  key={index}
-                  className={
-                    isInTopCategoryExpense(expense.category)
-                      ? "bg-green-200"
-                      : ""
-                  }
-                >
-                  <td className="border border-slate-700 p-2">
-                    <input
-                      type="checkbox"
-                      checked={selecting.includes(expense.id)}
-                      onChange={onToggleSelect(expense.id)}
-                    />
-                  </td>
-                  <td className="border border-slate-700 p-2">
-                    {expense.name}
-                  </td>
-                  <td className="border border-slate-700 p-2">
-                    {expense.category}
-                  </td>
-                  <td className="border border-slate-700 p-2">
-                    {formatter.format(expense.amount)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <ExpenseTable
+            items={expenses}
+            onToggleAll={onToggleAll}
+            renderRow={(expense, index) => (
+              <ExpenseRow
+                key={index}
+                active={isInTopCategoryExpense(expense.category)}
+                selected={selecting.includes(expense.id)}
+                onSelected={onToggleSelect(expense.id)}
+                name={expense.name}
+                category={expense.category}
+                amount={formatter.format(expense.amount)}
+              />
+            )}
+          />
         </div>
       ) : null}
       <ExpenseModal onCreate={addExpense} />

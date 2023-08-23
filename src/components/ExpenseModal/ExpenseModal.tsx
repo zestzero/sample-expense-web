@@ -49,6 +49,7 @@ export const ExpenseModal: FC<Props> = (props) => {
                   placeholder="Item Name"
                   type="text"
                   onChange={handleChange}
+                  data-testid="item-name"
                 />
                 <div className="text-xs text-red-500">
                   {errors.name && touched.name ? (
@@ -64,6 +65,7 @@ export const ExpenseModal: FC<Props> = (props) => {
                   placeholder="Amount"
                   type="number"
                   onChange={handleChange}
+                  data-testid="item-amount"
                 />
                 <div className="text-xs text-red-500">
                   {errors.amount && touched.amount ? (
@@ -75,7 +77,7 @@ export const ExpenseModal: FC<Props> = (props) => {
                 <CatFact />
               </div>
             </div>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" data-testid="submit-button">
               Submit
             </Button>
           </Form>

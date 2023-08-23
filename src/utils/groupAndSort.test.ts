@@ -1,4 +1,4 @@
-import { expect, test } from "vitest";
+import { describe, expect, it } from "vitest";
 import { Category, Expense } from "@models/Expense";
 import { groupByCategory, sortAmountByDesending } from "./groupAndSort";
 
@@ -33,19 +33,23 @@ const expenses: Expense[] = [
     },
 ];
 
-test("should groupByCategory correctly", () => {
-    expect(groupByCategory(expenses)).toEqual(new Map<Category, number>([
-        [Category.Food, 220],
-        [Category.Furniture, 5000],
-        [Category.Accessory, 100],
-    ]));
-});
+describe("groupAndSort", () => {
+    it("should groupByCategory correctly", () => {
+        expect(groupByCategory(expenses)).toEqual(
+            new Map<Category, number>([
+                [Category.Food, 220],
+                [Category.Furniture, 5000],
+                [Category.Accessory, 100],
+            ])
+        );
+    });
 
-test("should sortAmountByDesending correctly", () => {
-    const groupedByCategory = groupByCategory(expenses);
-    expect(sortAmountByDesending(groupedByCategory)).toEqual([
-        [Category.Furniture, 5000],
-        [Category.Food, 220],
-        [Category.Accessory, 100],
-    ]);
+    it("should sortAmountByDesending correctly", () => {
+        const groupedByCategory = groupByCategory(expenses);
+        expect(sortAmountByDesending(groupedByCategory)).toEqual([
+            [Category.Furniture, 5000],
+            [Category.Food, 220],
+            [Category.Accessory, 100],
+        ]);
+    });
 });

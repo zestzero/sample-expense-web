@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 
 export const useExpenseTracker = () => {
     const [expenses, setExpenses] = useState<Expense[]>([]);
-    const [topCategoryExpense, setTopCategoryExpenses] = useState<Category[]>([]);
+    const [topCategoriesExpense, setTopCategoriesExpenses] = useState<Category[]>([]);
 
     useEffect(() => {
         if (expenses.length > 0) {
@@ -14,7 +14,7 @@ export const useExpenseTracker = () => {
                     ? [first[0]].concat(second[0])
                     : [first[0]];
 
-            setTopCategoryExpenses(result);
+            setTopCategoriesExpenses(result);
         }
     }, [expenses]);
 
@@ -33,6 +33,6 @@ export const useExpenseTracker = () => {
         addExpense,
         deleteExpenses,
         isInTopCategoryExpense: (category: Category) =>
-            topCategoryExpense.some((c) => c === category),
+            topCategoriesExpense.some((c) => c === category),
     };
 };
