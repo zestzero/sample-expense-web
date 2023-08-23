@@ -1,12 +1,13 @@
 import { useQuery } from "react-query";
 import { CatFact } from "@models/CatFact";
+import { Endpoints } from "@constants/Endpoints";
 
 export const useCatFact = () => {
   const { data, isLoading, isFetching, isError } = useQuery<CatFact>({
-    queryKey: "catFact",
+    queryKey: ["catFact"],
     refetchOnWindowFocus: false,
     queryFn: () =>
-      fetch("https://catfact.ninja/fact").then((res) => res.json()),
+      fetch(Endpoints.CatFact).then((res) => res.json()),
   });
 
   return {
