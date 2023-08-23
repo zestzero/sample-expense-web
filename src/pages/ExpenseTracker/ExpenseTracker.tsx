@@ -5,8 +5,10 @@ import { PlusIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { useExpenseTracker } from "@hooks/useExpenseTracker";
 import { useModalContext } from "@hooks/useModalContext";
 import { useSelection } from "@hooks/useSelection";
+import { PriceFormatter } from "@utils/priceFormatter";
 
 export const ExpenseTracker = () => {
+  const formatter = new PriceFormatter("en-US", "USD");
   const { openModal } = useModalContext(ModalName.Expense);
   const { expenses, addExpense, deleteExpenses, isInTopCategoryExpense } =
     useExpenseTracker();
@@ -78,7 +80,7 @@ export const ExpenseTracker = () => {
                     {expense.category}
                   </td>
                   <td className="border border-slate-700 p-2">
-                    {expense.amount}
+                    {formatter.format(expense.amount)}
                   </td>
                 </tr>
               ))}
