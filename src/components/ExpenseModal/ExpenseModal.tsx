@@ -65,6 +65,7 @@ export const ExpenseModal: FC<Props> = (props) => {
                   placeholder="Amount"
                   type="number"
                   onChange={handleChange}
+                  step={0.1}
                   data-testid="item-amount"
                 />
                 <div className="text-xs text-red-500">
